@@ -1,6 +1,9 @@
 package com.skyshi.sms;
 
+import android.app.AlertDialog;
 import android.content.ContentResolver;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
@@ -30,7 +33,13 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Bundle intent = getIntent().getExtras();
         setContentView(R.layout.activity_main);
+        if(intent!=null){
+            String address = intent.getString("address");
+            String message = intent.getString("message");
+            makeDialog(this,address,message);
+        }
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getInbox();
@@ -62,7 +71,7 @@ public class MainActivity extends AppCompatActivity {
     public void getInbox(){
         Uri sms = Uri.parse("content://sms/inbox");
         ContentResolver cr = this.getContentResolver();
-        Cursor c = cr.query(sms,new String[]{"address","body","date_sent","date","_id","thread_id"},null,null,"thread_id asc");
+        Cursor c = cr.query(sms,new String[]{"address","body","date_sent","date","_id","thread_id"},null,null,"address asc");
         c.moveToFirst();
         String address = "";
         String addres="";
@@ -132,5 +141,22 @@ public class MainActivity extends AppCompatActivity {
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(milliSeconds);
         return formatter.format(calendar.getTime());
+    }
+    public void makeDialog(Context context,String title,String message){
+        AlertDialog.Builder dialog = new AlertDialog.Builder(MainActivity.this);
+                dialog.setTitle(title)
+                .setMessage(message)
+                .setPositiveButton("Reply", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+
+                    }
+                })
+                .setNegativeButton("Close", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.dismiss();
+                    }
+                }).show();
     }
 }
