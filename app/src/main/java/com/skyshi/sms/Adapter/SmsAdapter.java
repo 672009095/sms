@@ -29,7 +29,11 @@ public class SmsAdapter extends RecyclerView.Adapter<SmsAdapter.ViewHolder> {
         for (int i = 0; i <smsModels.size() ; i++) {
             if(smsModelNoDuplicate.size()>0) {
                 if(!smsModelNoDuplicate.contains(smsModels.get(i))){
+                    smsModels.get(i).getAddress();
+                    smsModels.get(i).getBody();
                     smsModelNoDuplicate.add(smsModels.get(i));
+                }else{
+                    i++;
                 }
             }else{
                 smsModelNoDuplicate.add(smsModels.get(i));
