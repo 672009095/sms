@@ -48,7 +48,7 @@ public class SmsReceiver extends BroadcastReceiver {
                     Intent intentMessage = new Intent(context,MainActivity.class);
                     intentMessage.putExtra("address",phoneNumber);
                     intentMessage.putExtra("message",message);
-                    PendingIntent contentIntent = PendingIntent.getActivity(context,0,intentMessage,0);
+                    PendingIntent contentIntent = PendingIntent.getActivity(context,0,intentMessage,PendingIntent.FLAG_UPDATE_CURRENT);
                     Uri sound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
                     NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context)
                             .setSmallIcon(R.mipmap.ic_launcher)
