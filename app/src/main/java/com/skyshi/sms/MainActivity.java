@@ -62,7 +62,7 @@ public class MainActivity extends AppCompatActivity {
     public void getInbox(){
         Uri sms = Uri.parse("content://sms/inbox");
         ContentResolver cr = this.getContentResolver();
-        Cursor c = cr.query(sms,new String[]{"address","body","date_sent","date","_id","thread_id"},null,null,"address asc");
+        Cursor c = cr.query(sms,new String[]{"address","body","date_sent","date","_id","thread_id"},null,null,"thread_id asc");
         c.moveToFirst();
         String address = "";
         String addres="";
@@ -82,18 +82,18 @@ public class MainActivity extends AppCompatActivity {
                 date_sent= c.getString(2);
                 date= c.getString(3);
             }else{
-                address = c.getString(0);
-                listSmsModel.add(new SmsModel(addres, body, getDate(Long.parseLong(date_sent),"dd/MM hh:mm"),getDate(Long.parseLong(date),"dd/MM hh:mm"), count));
-                Collections.sort(listSmsModel, new Comparator<SmsModel>() {
-                    @Override
-                    public int compare(SmsModel smsModel, SmsModel t1) {
-                        return t1.getCount() - smsModel.getCount();
-                    }
-                });
+                address = "";
+                listSmsModel.add(new SmsModel(addres, body, getDate(Long.parseLong(date_sent), "dd/MM hh:mm"), getDate(Long.parseLong(date), "dd/MM hh:mm"), count));
                 count=1;
             }
         }while(c.moveToNext());
         c.close();
+        Collections.sort(listSmsModel, new Comparator<SmsModel>() {
+            @Override
+            public int compare(SmsModel smsModel, SmsModel t1) {
+                return t1.getCount() - smsModel.getCount();
+            }
+        });
         for (int i = 0; i <listSmsModel.size() ; i++) {
             Log.v("tab-les", "address : " + listSmsModel.get(i).getAddress());
             Log.v("tab-les","body : "+listSmsModel.get(i).getBody());

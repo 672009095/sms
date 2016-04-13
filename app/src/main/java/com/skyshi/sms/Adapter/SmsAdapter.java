@@ -32,8 +32,6 @@ public class SmsAdapter extends RecyclerView.Adapter<SmsAdapter.ViewHolder> {
                     smsModels.get(i).getAddress();
                     smsModels.get(i).getBody();
                     smsModelNoDuplicate.add(smsModels.get(i));
-                }else{
-                    i++;
                 }
             }else{
                 smsModelNoDuplicate.add(smsModels.get(i));
